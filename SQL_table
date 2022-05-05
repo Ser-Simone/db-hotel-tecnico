@@ -1,0 +1,60 @@
+CREATE TABLE [dbo].[Room]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [N_Room] TINYINT NOT NULL, 
+    [N_Floor] TINYINT NOT NULL, 
+    [N_Bed] TINYINT NOT NULL
+)
+
+
+CREATE TABLE [dbo].[Configuration]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Room_type] VARCHAR(50) NOT NULL, 
+    [Desciption] TEXT NOT NULL
+)
+
+
+CREATE TABLE [dbo].[Guest]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [name] VARCHAR(50) NOT NULL, 
+    [surname] VARCHAR(50) NOT NULL, 
+    [phone] VARCHAR(15) NOT NULL, 
+    [date_of_birth] DATE NOT NULL, 
+    [document_type] VARCHAR(15) NOT NULL, 
+    [n_document] VARCHAR(20) NOT NULL
+)
+
+
+CREATE TABLE [dbo].[Booking]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [BookingDate] DATE NOT NULL, 
+    [ArrivalDate] DATE NOT NULL, 
+    [configuration_id] INT NOT NULL, 
+    CONSTRAINT [FK_Booking_configuration] FOREIGN KEY ([configuration_id]) REFERENCES [configuration]([id])
+)
+
+
+
+CREATE TABLE [dbo].[bill]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [guest_id] INT NOT NULL, 
+    [booking_id] INT NOT NULL, 
+    [status] VARCHAR(50) NOT NULL, 
+    [method] VARCHAR(50) NOT NULL, 
+    [payment_date] DATE NOT NULL, 
+    CONSTRAINT [FK_bill_guest_id] FOREIGN KEY ([guest_id]) REFERENCES [guest]([id]), 
+    CONSTRAINT [FK_bill_booking_id] FOREIGN KEY ([booking_id]) REFERENCES [booking]([id])
+)
+
+
+CREATE TABLE [dbo].[booking_guest]
+(
+    [guest_id] INT NOT NULL, 
+    [room_id] INT NOT NULL, 
+    CONSTRAINT [FK_booking_guest_guest_id] FOREIGN KEY ([guest_id]) REFERENCES [guest]([id]), 
+    CONSTRAINT [FK_booking_guest_room_id] FOREIGN KEY ([room_id]) REFERENCES [room]([id])
+)
