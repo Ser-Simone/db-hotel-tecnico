@@ -80,3 +80,7 @@ WHERE (stanze.floor=1)
 11. Le stanze sono state tutte prenotate almeno una volta? (Visualizzare le stanze
 non ancora prenotate) - BONUS
 
+SELECT *
+FROM stanze
+LEFT JOIN prenotazioni ON stanze.id = prenotazioni.stanza_id
+WHERE stanza_id is null
